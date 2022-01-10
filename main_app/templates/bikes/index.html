@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Bike List</h1>
+
+{% for bike in bikes %}
+  <div class="card">
+    <div class="card-content">
+      <span class="card-title">{{ bike.brand }}</span>
+      <p>Model: {{ bike.model }}</p>
+      {% if bike.year %}
+      <p>Year: {{ bike.year }}</p>
+      {% else %}
+      <p>Year: N/A</p>
+      {% endif %}
+      <p>Condition: {{ bike.condition }}</p>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}
