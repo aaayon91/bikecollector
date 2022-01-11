@@ -1,11 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Bike List</h1>
+<h1>Bike Details</h1>
 
-{% for bike in bikes %}
   <div class="card">
-    <a href="{% url 'detail' bike.id %}">
       <div class="card-content">
         <span class="card-title">{{ bike.brand }}</span>
         <p>Model: {{ bike.model }}</p>
@@ -16,8 +14,10 @@
         {% endif %}
         <p>Condition: {{ bike.condition }}</p>
       </div>
-    </a>
+      <div class="card-action">
+        <a href="{% url 'bikes_update' bike.id %}">Edit</a>
+        <a href="{% url 'bikes_delete' bike.id %}">Delete</a>
+      </div>
   </div>
-{% endfor %}
 
 {% endblock %}
