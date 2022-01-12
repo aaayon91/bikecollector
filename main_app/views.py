@@ -1,7 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 # from django.http import HttpResponse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from .models import Bike
+from django.views.generic import ListView, DetailView
+from .models import Bike, Component
+from .forms import OrderForm
 
 # Add the Bike class & list and view function below the imports
 # class Bike:  # Note that parens are optional if not inheriting from another class
@@ -32,7 +34,22 @@ def bikes_index(request):
 
 def bikes_detail(request, bike_id):
   bike = Bike.objects.get(id=bike_id)
-  return render(request, 'bikes/detail.html', { 'bike': bike })
+  # instantiate OrderForm to be renderes in the template
+  order_form = OrderForm()
+  return render(request, 'bikes/detail.html', { 
+      'bike': bike, 'order_form': order_form
+      })
+
+def add_order(request, bike_id):
+    # create a ModelForm instance using the data in request.POST
+    form = OrderForm(request.POST)
+    # validate the form
+    if form.is_valid():
+        # don't send the form to the db until it has the bike_id assigned
+        new_order = form.save(commit=False)
+        new_order.bike_id = bike_id
+        new_order.save()
+    return redirect('detail', bike_id=bike_id)
 
 class BikeCreate(CreateView):
     model = Bike
@@ -45,3 +62,21 @@ class BikeUpdate(UpdateView):
 class BikeDelete(DeleteView):
     model = Bike
     success_url = '/bikes/'
+
+class ComponentList(ListView):
+    model = Component
+
+class ComponentDetail(DetailView):
+    model = Component
+
+class ComponentCreate(CreateView):
+    model = Component
+    fields = '__all__'
+
+class ComponentUpdate(UpdateView):
+    model = Component
+    fields = ['type', 'functionality']
+
+class ComponentDelete(DeleteView):
+    model = Component
+    success_url = '/components/'

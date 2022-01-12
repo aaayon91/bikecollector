@@ -10,4 +10,10 @@ urlpatterns = [
     path('bikes/create/', views.BikeCreate.as_view(), name='bikes_create'),
     path('bikes/<int:pk>/update/', views.BikeUpdate.as_view(), name='bikes_update'),
     path('bikes/<int:pk>/delete/', views.BikeDelete.as_view(), name='bikes_delete'),
+    path('bikes/<int:bike_id>/add_order/', views.add_order, name='add_order'),
+    path('components/', views.ComponentList.as_view(), name='components_index'),
+    path('components/<int:pk>/', views.ComponentDetail.as_view(), name='components_detail'),
+    path('components/create/', views.ComponentCreate.as_view(), name='components_create'),
+    path('components/<int:pk>/update/', views.ComponentUpdate.as_view(), name='components_update'),
+    path('components/<int:pk>/delete/', views.ComponentDelete.as_view(), name='components_delete'),
 ]
