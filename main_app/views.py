@@ -34,10 +34,14 @@ def bikes_index(request):
 
 def bikes_detail(request, bike_id):
   bike = Bike.objects.get(id=bike_id)
+  # Get the components that the bike doesn't have
+  components_bike_doesnt_have = Component.objects.exclude(id__in = bike.components.all().values_list('id'))
   # instantiate OrderForm to be renderes in the template
   order_form = OrderForm()
   return render(request, 'bikes/detail.html', { 
-      'bike': bike, 'order_form': order_form
+      'bike': bike, 'order_form': order_form,
+      # Add the components to be displayed
+      'components': components_bike_doesnt_have
       })
 
 def add_order(request, bike_id):
