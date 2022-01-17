@@ -119,6 +119,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# This variable specifies where successful logins should redirect to
+LOGIN_REDIRECT_URL = '/bikes/'
+
+# This variable specifies where logging out redirects to
+LOGOUT_REDIRECT_URL = '/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
