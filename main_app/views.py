@@ -38,10 +38,14 @@ def bikes_detail(request, bike_id):
   components_bike_doesnt_have = Component.objects.exclude(id__in = bike.components.all().values_list('id'))
   # instantiate OrderForm to be renderes in the template
   order_form = OrderForm()
+  t = 0
+  for order in bike.order_set.all():
+      t = t + order.total
   return render(request, 'bikes/detail.html', { 
       'bike': bike, 'order_form': order_form,
       # Add the components to be displayed
-      'components': components_bike_doesnt_have
+      'components': components_bike_doesnt_have,
+      't': t
       })
 
 def add_order(request, bike_id):
@@ -55,9 +59,14 @@ def add_order(request, bike_id):
         new_order.save()
     return redirect('detail', bike_id=bike_id)
 
+def assoc_component(request, bike_id, component_id):
+    # Note that you can pass a toy's id instead of the whole toy object
+    Bike.objects.get(id=bike_id).components.add(component_id)
+    return redirect('detail', bike_id=bike_id)
+
 class BikeCreate(CreateView):
     model = Bike
-    fields = '__all__'
+    fields = ['brand', 'model', 'year', 'condition']
 
 class BikeUpdate(UpdateView):
     model = Bike

@@ -16,4 +16,5 @@ urlpatterns = [
     path('components/create/', views.ComponentCreate.as_view(), name='components_create'),
     path('components/<int:pk>/update/', views.ComponentUpdate.as_view(), name='components_update'),
     path('components/<int:pk>/delete/', views.ComponentDelete.as_view(), name='components_delete'),
+    path('bikes/<int:bike_id>/assoc_component/<int:component_id>/', views.assoc_component, name='assoc_component')
 ]

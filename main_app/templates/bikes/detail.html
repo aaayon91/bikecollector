@@ -22,11 +22,13 @@
     </div>
   </div>
   <div class="col s6">
+    <h3>Orders</h3>
     <form action="{% url 'add_order' bike.id %}" method="post">
       {% csrf_token %}
       {{ order_form.as_p }}
       <input type="submit" class="btn" value="Add Order">
     </form>
+    {% if bike.order_set.count %}
     <table class="striped">
       <thead>
         <tr><th>Date</th><th>Items</th><th>Total</th></tr>
@@ -40,7 +42,13 @@
           </tr>
         {% endfor %}
       </tbody>
+      <tfoot>
+        <tr><th></th><th>Total:</th><th>{{ t }}</th></tr>
+      </tfoot>
     </table>
+    {% else %}
+    <h5>No Orders Yet</h5>
+    {% endif %}
   </div>
 </div>
 
@@ -74,7 +82,7 @@
             </span>
           </div>
           <div class="card-action">
-            <form action="" method="post">
+            <form action="{% url 'assoc_component' bike.id component.id %}" method="post">
               {% csrf_token %}
               <button type="submit" class="btn">Add</button>
             </form>

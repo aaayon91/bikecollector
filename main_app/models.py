@@ -16,6 +16,7 @@ class Component(models.Model):
         choices=FUNCTION,
         default=FUNCTION[0][0]
     )
+    
     def __str__(self):
         return self.type
 
