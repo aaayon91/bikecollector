@@ -1,7 +1,10 @@
+from operator import mod
 from django.db import models
 # Import the reverse function
 from django.urls import reverse
 from datetime import date
+# Import the User
+from django.contrib.auth.models import User
 
 FUNCTION = (
     ('Drivetrain', 'Drivetrain'),
@@ -31,6 +34,8 @@ class Bike(models.Model):
     condition = models.CharField(max_length=100)
     # Add the M:M relationship
     components = models.ManyToManyField(Component)
+    # Add the foreign key linking to a user instance
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.brand
@@ -53,3 +58,10 @@ class Order(models.Model):
     # This will change the default sort order
     class Meta:
         ordering = ['-date']
+
+class Photo(models.Model):
+    url = models.CharField(max_length=200)
+    bike = models.ForeignKey(Bike, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for bike_id: {self.bike_id} @{self.url}"
